@@ -13,6 +13,8 @@ class Main extends Component {
     e.preventDefault();
 
     this.props.addFavoriteRequest(this.state.repositoryInput);
+
+    this.setState({ repositoryInput: "" });
   };
 
   render() {
@@ -26,10 +28,12 @@ class Main extends Component {
             onChange={e => this.setState({ repositoryInput: e.target.value })}
           />
           <button type="submit">Add</button>
+
+          {this.props.favorites.loading && <span> Carregando...</span>}
         </form>
 
         <ul>
-          {this.props.favorites.map(favorite => (
+          {this.props.favorites.data.map(favorite => (
             <li key={favorite.id}>
               <p>
                 <strong>{favorite.name}</strong>({favorite.description})
