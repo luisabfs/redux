@@ -12,13 +12,13 @@ class Main extends Component {
   handleAddRepository = e => {
     e.preventDefault();
 
-    this.props.addFavorite();
+    this.props.addFavoriteRequest(this.state.repositoryInput);
   };
 
   render() {
     return (
       <Fragment>
-        <form action="" onSubmit={this.handleAddRepository}>
+        <form onSubmit={this.handleAddRepository}>
           <input
             type="text"
             placeholder="user/repository"
