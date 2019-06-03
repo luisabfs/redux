@@ -1,8 +1,18 @@
 import React, { Component, Fragment } from "react";
 
-export default class Main extends Component {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as FavoriteActions from "../../store/actions/favorites";
+
+class Main extends Component {
   state = {
     repositoryInput: ""
+  };
+
+  handleAddRepository = e => {
+    e.preventDefault();
+
+    this.props.addFavorite();
   };
 
   render() {
@@ -19,16 +29,28 @@ export default class Main extends Component {
         </form>
 
         <ul>
-          <li>
-            <p>
-              <strong>infinitered/reactotron</strong> (A desktop app for
-              inspecting your React JS and React Native projects. macOS, Linux,
-              and Windows.)
-            </p>
-            <a href="https://github.com/infinitered/reactotron" />
-          </li>
+          {this.props.favorites.map(favorite => (
+            <li key={favorite.id}>
+              <p>
+                <strong>{favorite.name}</strong>({favorite.description})
+              </p>
+              <a href={favorite.url}>Access</a>
+            </li>
+          ))}
         </ul>
       </Fragment>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  favorites: state.favorites
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(FavoriteActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);
